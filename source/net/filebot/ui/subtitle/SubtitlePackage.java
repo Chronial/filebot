@@ -37,7 +37,7 @@ public class SubtitlePackage {
 		this.subtitle = subtitle;
 
 		// resolve language name
-		this.language = new Language(languageCodeByName.get(subtitle.getLanguageName()), Language.getISO3LanguageCodeByName(subtitle.getLanguageName()), subtitle.getLanguageName());
+		this.language = Language.findLanguage(subtitle.getLanguageName());
 
 		// initialize download worker
 		download = new Download(subtitle);
@@ -204,22 +204,4 @@ public class SubtitlePackage {
 			return current;
 		}
 	}
-
-	/**
-	 * Map english language name to language code.
-	 */
-	private static final Map<String, String> languageCodeByName = mapLanguageCodeByName();
-
-	private static Map<String, String> mapLanguageCodeByName() {
-		ResourceBundle bundle = ResourceBundle.getBundle(Language.class.getName(), Locale.ENGLISH);
-
-		Map<String, String> map = new HashMap<String, String>();
-
-		for (String code : bundle.keySet()) {
-			map.put(bundle.getString(code), code);
-		}
-
-		return map;
-	}
-
 }
